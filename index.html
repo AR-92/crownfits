@@ -368,50 +368,88 @@
   }
   .tier-card-body p strong{ color:var(--gold-bright); font-weight:500; }
 
-  /* ---- comparison bars ---- */
-  .compare{
-    display:flex;
-    flex-direction:column;
-    gap: 30px;
+  /* ---- comparison table ---- */
+  .compare-table{
     margin-top:44px;
-  }
-  .compare-row{ display:flex; flex-direction:column; gap:8px; }
-  .compare-metric{
-    font-family:var(--mono);
-    font-size:12px;
-    letter-spacing:.1em;
-    text-transform:uppercase;
-    color:var(--fg-dim);
-  }
-  .compare-line{
-    display:grid;
-    grid-template-columns: 108px 1fr;
-    align-items:center;
-    gap:14px;
-  }
-  @media (max-width:560px){ .compare-line{ grid-template-columns: 84px 1fr; } }
-  .compare-who{
-    font-size:13px;
-    color:var(--fg-faint);
-    text-align:right;
-  }
-  .compare-line.us .compare-who{ color:var(--gold-bright); }
-  .compare-track{
-    height:14px;
-    background:var(--bg-raised);
-    border-radius:2px;
+    border:1px solid var(--line);
+    border-radius:8px;
     overflow:hidden;
   }
-  .compare-fill{
-    height:100%;
-    display:block;
-    transform-origin:left center;
-    transform:scaleX(0);
-    transition:transform 1.1s cubic-bezier(.2,.7,.2,1);
-    background:var(--fg-faint);
+  .compare-head{
+    display:grid;
+    grid-template-columns: minmax(150px,1.3fr) 1fr 1fr;
   }
-  .compare-line.us .compare-fill{ background:var(--gold); }
-  .reveal.in .compare-fill{ transform:scaleX(1); }
+  .compare-head .ch{
+    padding:16px 18px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+  .compare-head .ch.alone{ color:var(--fg-faint); }
+  .compare-head .ch.us{ color:var(--gold-bright); background:rgba(201,162,39,0.08); }
+
+  .compare-row{
+    display:grid;
+    grid-template-columns: minmax(150px,1.3fr) 1fr 1fr;
+    border-top:1px solid var(--line);
+  }
+  .compare-row .metric{
+    padding:18px;
+    display:flex;
+    align-items:center;
+    font-size:14px;
+    color:var(--fg-dim);
+    font-weight:400;
+  }
+  .compare-cell{
+    padding:18px;
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:14px;
+    line-height:1.4;
+    font-weight:300;
+    color:var(--fg);
+    opacity:0;
+    transform:translateX(-8px);
+    transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .compare-cell.us{
+    background:rgba(201,162,39,0.08);
+    border-left:1px solid var(--line);
+    transform:translateX(8px);
+  }
+  .reveal.in .compare-cell{ opacity:1; transform:none; }
+  .compare-icon{
+    flex-shrink:0;
+    width:18px; height:18px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px;
+    margin-top:1px;
+  }
+  .compare-cell.alone .compare-icon{
+    border:1px solid var(--fg-faint);
+    color:var(--fg-faint);
+  }
+  .compare-cell.us .compare-icon{
+    background:var(--gold);
+    color:var(--bg);
+    font-weight:700;
+  }
+
+  @media (max-width:640px){
+    .compare-head{ display:none; }
+    .compare-row{
+      grid-template-columns: 1fr;
+      padding:18px 0 20px;
+      gap:10px;
+    }
+    .compare-row .metric{ padding: 0 18px; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-dim); }
+    .compare-cell{ padding: 0 18px; }
+    .compare-cell.us{ border-left:none; background:none; }
+  }
 
   /* ---- stat tiles ---- */
   .stat-grid{
@@ -599,39 +637,42 @@
   <section>
     <p class="eyebrow reveal">The Alternative</p>
     <h2 class="section-title reveal d1">Going it alone vs. going with us.</h2>
-    <div class="compare">
-      <div class="compare-row">
-        <span class="compare-metric reveal d2">Money out of your pocket</span>
-        <div class="compare-line reveal d2">
-          <span class="compare-who">Alone</span>
-          <div class="compare-track"><span class="compare-fill" style="width:88%"></span></div>
-        </div>
-        <div class="compare-line us reveal d2">
-          <span class="compare-who">CrownFits</span>
-          <div class="compare-track"><span class="compare-fill" style="width:3%"></span></div>
-        </div>
+
+    <div class="compare-table">
+      <div class="compare-head">
+        <div class="ch"></div>
+        <div class="ch alone">Going alone</div>
+        <div class="ch us">With CrownFits</div>
       </div>
-      <div class="compare-row">
-        <span class="compare-metric reveal d3">Time spent designing, sourcing &amp; shipping</span>
-        <div class="compare-line reveal d3">
-          <span class="compare-who">Alone</span>
-          <div class="compare-track"><span class="compare-fill" style="width:92%"></span></div>
-        </div>
-        <div class="compare-line us reveal d3">
-          <span class="compare-who">CrownFits</span>
-          <div class="compare-track"><span class="compare-fill" style="width:12%"></span></div>
-        </div>
+
+      <div class="compare-row reveal d2">
+        <div class="metric">Upfront cost</div>
+        <div class="compare-cell alone"><span class="compare-icon">✕</span>You front the production money</div>
+        <div class="compare-cell us"><span class="compare-icon">✓</span>$0 out of your pocket</div>
       </div>
-      <div class="compare-row">
-        <span class="compare-metric reveal d4">Marketing effort &amp; spend</span>
-        <div class="compare-line reveal d4">
-          <span class="compare-who">Alone</span>
-          <div class="compare-track"><span class="compare-fill" style="width:80%"></span></div>
-        </div>
-        <div class="compare-line us reveal d4">
-          <span class="compare-who">CrownFits</span>
-          <div class="compare-track"><span class="compare-fill" style="width:15%"></span></div>
-        </div>
+
+      <div class="compare-row reveal d2">
+        <div class="metric">Design &amp; sourcing</div>
+        <div class="compare-cell alone"><span class="compare-icon">✕</span>You find a designer and a manufacturer</div>
+        <div class="compare-cell us"><span class="compare-icon">✓</span>We design it and build it, to your vision</div>
+      </div>
+
+      <div class="compare-row reveal d3">
+        <div class="metric">Marketing</div>
+        <div class="compare-cell alone"><span class="compare-icon">✕</span>You fund and run the ads yourself</div>
+        <div class="compare-cell us"><span class="compare-icon">✓</span>We market it, out of our own pocket</div>
+      </div>
+
+      <div class="compare-row reveal d3">
+        <div class="metric">Shipping &amp; support</div>
+        <div class="compare-cell alone"><span class="compare-icon">✕</span>You pack orders and answer every DM</div>
+        <div class="compare-cell us"><span class="compare-icon">✓</span>We manufacture, ship, and handle inquiries</div>
+      </div>
+
+      <div class="compare-row reveal d4">
+        <div class="metric">If it doesn't sell</div>
+        <div class="compare-cell alone"><span class="compare-icon">✕</span>You eat the full loss alone</div>
+        <div class="compare-cell us"><span class="compare-icon">✓</span>We carry the risk with you</div>
       </div>
     </div>
   </section>
